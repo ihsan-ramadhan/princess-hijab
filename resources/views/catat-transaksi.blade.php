@@ -12,224 +12,24 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@600&display=swap" rel="stylesheet">
 
-    <style>
-        * {
-            -webkit-font-smoothing: antialiased;
-            box-sizing: border-box;
-        }
-        
-        html, body {
-            margin: 0px;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #f0f2f5; 
-        }
-        
-        a {
-            text-decoration: none;
-        }
+    <link rel="stylesheet" href="{{ asset('css/shared.css') }}">
 
-        .android-compact {
-            background-color: #ffffff;
-            overflow: hidden;
-            width: 412px;
-            height: 917px;
-            position: relative;
-            border: 1px solid #000000;
-            box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.15);
-        }
-
-        .android-compact .bg-gradient-top {
-            position: absolute;
-            top: -83px;
-            left: -21px;
-            width: 465px;
-            height: 386px;
-            border-radius: 50%;
-            background: linear-gradient(208deg, #fdf6c8 25%, #ffffff 82%);
-            z-index: 1;
-        }
-        
-        .android-compact .bg-gradient-bottom {
-            position: absolute;
-            top: 535px;
-            left: 0;
-            width: 424px;
-            height: 382px;
-            background: linear-gradient(180deg, #ffffff 0%, #f5b9db 100%);
-            z-index: 1;
-        }
-
-        .android-compact .header-card {
-            position: absolute;
-            width: 354px; 
-            top: 36px;
-            left: 31px;
-            height: 74px;
-            border-radius: 40px;
-            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-            background: linear-gradient(180deg, #ffffff 0%, #f5b9db 73%);
-            z-index: 3;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 25px;
-        }
-        
-        .header-title {
-            font-family: "Montserrat Alternates", sans-serif;
-            font-weight: 600;
-            color: #000000;
-            font-size: 23px;
-        }
-        
-        .header-icon-container {
-            width: 38px;
-            height: 38px;
-            background-color: #ffffff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
-        }
-        
-        .header-icon {
-            font-size: 18px;
-            color: #000000;
-        }
-
-        .form-container {
-            position: absolute;
-            top: 150px;
-            left: 42px;
-            width: 327px;
-            height: 600px;
-            background-color: rgba(193, 214, 243, 0.48); 
-            border-radius: 30px;
-            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-            z-index: 2;
-            padding: 25px 20px;
-        }
-
-        .form-group {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 14px;
-        }
-        
-        .form-group label {
-            font-family: "Montserrat Alternates", sans-serif;
-            font-weight: 600;
-            font-size: 16px;
-            color: #000000;
-            width: 90px;
-        }
-        
-        .form-control {
-            width: 185px;
-            height: 38px;
-            background-color: #ffffff;
-            border: 1px solid #000000;
-            border-radius: 15px;
-            padding: 0 15px;
-            font-family: "Montserrat Alternates", sans-serif;
-            font-size: 14px;
-            outline: none;
-        }
-        
-        select.form-control {
-            appearance: none;
-            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path d='M0 3l5 5 5-5z' fill='%23000'/></svg>");
-            background-repeat: no-repeat;
-            background-position: right 15px center;
-        }
-
-        .total-box {
-            background-color: #fdf6c8;
-            border: 1px solid #000000;
-            border-radius: 15px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            padding: 0 15px;
-            margin-top: 15px;
-        }
-        
-        .total-box span {
-            font-family: "Montserrat Alternates", sans-serif;
-            font-weight: 600;
-            font-size: 16px;
-            color: #000000;
-        }
-
-        .action-container {
-            position: absolute;
-            bottom: 50px;
-            left: 42px;
-            width: 327px;
-            display: flex;
-            justify-content: space-between;
-            z-index: 3;
-        }
-        
-        .btn-action {
-            width: 145px;
-            height: 50px;
-            background-color: #c1d6f3;
-            border: 1px solid #000000;
-            border-radius: 20px;
-            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-            font-family: "Montserrat Alternates", sans-serif;
-            font-weight: 600;
-            font-size: 18px;
-            color: #000000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        
-        .btn-action:hover {
-            transform: scale(1.05);
-        }
-
-        .ellipse-base {
-            position: absolute;
-            border-radius: 50%;
-            z-index: 2; 
-        }
-        .ellipse-1 { top: 780px; left: -20px; width: 70px; height: 65px; background-color: #f5b9db; }
-        .ellipse-2 { top: 830px; left: 280px; width: 58px; height: 53px; background-color: #d6fccd; }
-        .ellipse-3 { top: 840px; left: 100px; width: 100px; height: 90px; background-color: #fdf6c8; }
-        .ellipse-4 { top: 730px; left: 340px; width: 80px; height: 80px; background-color: #c1d6f3; }
-
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            padding: 8px;
-            border-radius: 10px;
-            font-size: 12px;
-            text-align: center;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-    </style>
 </head>
 <body>
 
-    <div class="android-compact">
+    <div class="android-compact page-catat-transaksi">
         <div class="bg-gradient-top"></div>
         <div class="bg-gradient-bottom"></div>
 
         <div class="header-card">
             <span class="header-title">Catat Transaksi</span>
-            <div class="header-icon-container">
-                <i class="fa-solid fa-heart header-icon"></i>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <div class="header-icon-container">
+                    <i class="fa-solid fa-heart header-icon"></i>
+                </div>
+                <a href="{{ url('/logout') }}" title="Logout" style="width: 38px; height: 38px; background-color: #ffffff; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15); transition: transform 0.2s;">
+                    <i class="fa-solid fa-right-from-bracket" style="color: #ff477e; font-size: 16px;"></i>
+                </a>
             </div>
         </div>
 
@@ -305,10 +105,10 @@
             <button type="button" class="btn-action" onclick="submitFormTransaksi()">Tambah</button>
         </div>
 
-        <div class="ellipse-base ellipse-1"></div>
-        <div class="ellipse-base ellipse-2"></div>
-        <div class="ellipse-base ellipse-3"></div>
-        <div class="ellipse-base ellipse-4"></div>
+        <div class="decor-circle pink-1"></div>
+        <div class="decor-circle green-1"></div>
+        <div class="decor-circle yellow-1"></div>
+        <div class="decor-circle blue-1"></div>
     </div>
 
     <script>
@@ -351,5 +151,6 @@
         }
     </script>
 
+    <script src="{{ asset('js/shared.js') }}"></script>
 </body>
 </html>

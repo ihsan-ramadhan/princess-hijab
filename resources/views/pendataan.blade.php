@@ -9,299 +9,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<style>
-@import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+<link rel="stylesheet" href="{{ asset('css/shared.css') }}">
 
-* {
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f0f2f5;
-  font-family: "Montserrat Alternates", sans-serif;
-}
-
-/* SMARTPHONE CONTAINER FRAME */
-.android-compact {
-  background-color: #ffffff;
-  overflow: hidden;
-  width: 412px;
-  height: 917px;
-  position: relative;
-  box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.15);
-}
-
-/* HEADER GRADIENT AREA */
-.android-compact .rectangle-header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 412px;
-  height: 135px;
-  background: linear-gradient(0deg, rgba(253, 246, 200, 1) 0%, rgba(245, 185, 219, 1) 100%);
-  z-index: 1;
-}
-
-/* TOMBOL KELUAR KIRI ATAS */
-.android-compact .material-symbols-back {
-  position: absolute;
-  top: 75px;
-  left: 18px;
-  width: 35px;
-  height: 35px;
-  cursor: pointer;
-  z-index: 3;
-}
-.android-compact .material-symbols-back img { width: 100%; height: 100%; }
-
-/* JUDUL UTAMA HALAMAN */
-.android-compact .text-wrapper-title {
-  position: absolute;
-  top: 75px;
-  left: 121px;
-  font-weight: 600;
-  color: #000000;
-  font-size: 28px;
-  z-index: 2;
-}
-
-/* IKON CATATAN KANAN ATAS */
-.android-compact .streamline-freehand {
-  position: absolute;
-  top: 70px;
-  left: 325px;
-  width: 45px;
-  height: 45px;
-  z-index: 3;
-}
-.android-compact .streamline-freehand img { width: 100%; height: 100%; object-fit: contain; }
-
-/* GARIS PEMBATAS HEADER */
-.android-compact .line-separator {
-  position: absolute;
-  top: 134px;
-  left: 0;
-  width: 412px;
-  height: 2px;
-  background-color: #000000;
-  border: none;
-  z-index: 2;
-}
-
-/* NAVIGATION TABS GRID */
-.tab-navigation-grid {
-  position: absolute;
-  top: 150px;
-  left: 24px;
-  width: 364px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  z-index: 3;
-}
-
-.tab-nav-btn {
-  height: 43px;
-  font-family: "Montserrat Alternates", sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-  border-radius: 20px;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
-}
-
-.tab-nav-btn.active {
-  background-color: #c1d6f3;
-  border: 1px solid #000000;
-  color: #000000;
-}
-.tab-nav-btn.inactive {
-  background-color: #dad5d5;
-  color: #666666;
-}
-
-/* CONTAINER UTAMA TABEL DATA */
-.data-table-container {
-  position: absolute;
-  top: 265px;
-  left: 21px;
-  width: 371px;
-  height: 420px;
-  background-color: #ffffff;
-  border: 2px solid #1e1e1e;
-  border-radius: 20px;
-  z-index: 2;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.figma-grid-table { width: 100%; height: 100%; display: flex; flex-direction: column; }
-.table-header-row { display: flex; background-color: #ffffff; border-bottom: 2px solid #1e1e1e; padding: 12px 0; font-weight: 600; font-size: 13px; text-align: center; }
-.table-data-rows { display: flex; flex-direction: column; overflow-y: auto; flex: 1; }
-.table-body-row { display: flex; border-bottom: 1px solid #e0e0e0; padding: 14px 0; font-size: 12px; text-align: center; font-weight: 500; align-items: center; }
-
-/* PENYESUAIAN UKURAN KOLOM AGAR CUKUP DENGAN TOMBOL HAPUS */
-.col-5-action { width: 16%; display: flex; justify-content: center; align-items: center; }
-.col-4-reduced { width: 21%; border-right: 1px solid #1e1e1e; word-break: break-word; padding: 0 2px; }
-.col-3-reduced { width: 28%; border-right: 1px solid #1e1e1e; word-break: break-word; padding: 0 2px; }
-
-/* TOMBOL SAMPAH MINI UNTUK HAPUS */
-.btn-mini-delete {
-  background: none;
-  border: none;
-  color: #ff4d4d;
-  cursor: pointer;
-  font-size: 15px;
-  transition: transform 0.2s ease;
-  padding: 4px;
-}
-.btn-mini-delete:hover {
-  transform: scale(1.2);
-}
-
-/* NOTIFIKASI SUKSES POPUP */
-.alert-popup-success {
-  position: absolute;
-  top: 15px;
-  left: 26px;
-  width: 360px;
-  background-color: #d6fccd;
-  border: 1.5px solid #000000;
-  border-radius: 15px;
-  padding: 12px;
-  text-align: center;
-  font-size: 13px;
-  font-weight: 600;
-  color: #274421;
-  z-index: 20;
-  box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
-}
-
-/* TOMBOL + TAMBAH DATA */
-.add-data-action-container {
-  position: absolute;
-  top: 698px;
-  right: 21px;
-  z-index: 3;
-}
-.add-data-btn {
-  background-color: #c1d6f3;
-  border: 1px solid #000000;
-  border-radius: 12px;
-  padding: 0 16px;
-  height: 34px;
-  color: #000000;
-  font-family: "Montserrat Alternates", sans-serif;
-  font-weight: 600;
-  font-size: 13px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.2s ease;
-}
-.add-data-btn:hover {
-  background-color: #acc8eb;
-}
-
-/* SLIDE-UP FORM MODAL */
-.modal-overlay-blur {
-  position: absolute;
-  top: 0; left: 0; width: 412px; height: 917px;
-  background-color: rgba(0, 0, 0, 0.4);
-  z-index: 10;
-  display: none;
-}
-
-.bottom-sheet-form {
-  position: absolute;
-  bottom: 0; left: 0; width: 412px; height: 530px;
-  background-color: #ffffff;
-  border-radius: 40px 40px 0 0;
-  box-shadow: 0px -4px 15px rgba(0,0,0,0.155);
-  padding: 25px 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  pointer-events: auto;
-  overflow-y: auto;
-}
-
-.bottom-sheet-title { font-size: 18px; font-weight: 600; color: #000000; margin-bottom: 20px; width: 100%; text-align: center; }
-
-.form-input-group { width: 100%; display: flex; flex-direction: column; gap: 12px; }
-.input-field-wrapper { width: 100%; }
-.input-field-wrapper input {
-  width: 100%; height: 44px;
-  background-color: #fcebf5;
-  border: none;
-  border-radius: 15px; padding: 0 20px;
-  font-family: "Montserrat Alternates", sans-serif;
-  font-size: 14px; font-weight: 600; color: #000000; outline: none;
-}
-.input-field-wrapper input::placeholder { color: #a5a5a5; font-weight: 500; }
-
-.form-actions-row { display: flex; width: 100%; justify-content: space-between; margin-top: 20px; }
-.btn-action-form { width: 150px; height: 45px; border-radius: 12px; border: none; font-family: "Montserrat Alternates", sans-serif; font-weight: 600; font-size: 15px; cursor: pointer; }
-.btn-action-form.btn-cancel { background-color: #d9d9d9; color: #000000; }
-.btn-action-form.btn-save { background-color: #c1d6f3; color: #000000; border: 1px solid #000000; }
-
-.android-compact .bg-gradient-bottom {
-  position: absolute;
-  top: 647px; left: 0; width: 412px; height: 304px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 24%, rgba(245, 185, 219, 0.5) 96%);
-  z-index: 1; pointer-events: none;
-}
-
-/* BOTTOM NAVIGATION BAR */
-.bottom-nav-bar {
-  position: absolute;
-  top: 812px;
-  left: 56px;
-  width: 301px;
-  height: 60px;
-  border-radius: 40px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  background: linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(184, 230, 173, 1) 100%);
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 0 10px;
-  z-index: 5;
-}
-.nav-icon { width: 44px; height: 44px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.nav-icon img { width: 100%; height: 100%; object-fit: contain; }
-
-.nav-icon.active {
-  background-color: #c1d6f3;
-  border: 2px solid #000000;
-  border-radius: 50%;
-}
-
-.hidden-section { display: none !important; }
-</style>
 </head>
 <body>
 
-<div class="android-compact">
+<div class="android-compact page-pendataan">
   <div class="rectangle-header"></div>
 
   @if(session('sukses'))
-    <div class="alert-popup-success" id="successAlert">
+    <div class="alert-popup-success" id="successAlert" style="top: 15px;">
         <i class="fa-solid fa-circle-check"></i> {{ session('sukses') }}
     </div>
     <script>
@@ -349,7 +66,10 @@ html, body {
               <div class="col-4-reduced">{{ $produk->jenis }}</div>
               <div class="col-4-reduced">{{ $produk->ukuran }}</div>
               <div class="col-5-action">
-                <a href="{{ url('/hapus-produk/'.$produk->id) }}" onclick="return confirm('Hapus produk {{ $produk->nama_produk }}?')" class="btn-mini-delete">
+                <a href="javascript:void(0)" class="btn-mini-edit btn-edit-produk" data-id="{{ $produk->id }}" data-nama_produk="{{ $produk->nama_produk }}" data-jenis="{{ $produk->jenis }}" data-ukuran="{{ $produk->ukuran }}" title="Ubah">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+                <a href="{{ url('/hapus-produk/'.$produk->id) }}" onclick="return confirm('Hapus produk {{ $produk->nama_produk }}?')" class="btn-mini-delete" title="Hapus">
                   <i class="fa-solid fa-trash-can"></i>
                 </a>
               </div>
@@ -380,7 +100,10 @@ html, body {
               <div class="col-4-reduced">{{ $pemasok->alamat }}</div>
               <div class="col-4-reduced">{{ $pemasok->no_telp }}</div>
               <div class="col-5-action">
-                <a href="{{ url('/hapus-pemasok/'.$pemasok->id) }}" onclick="return confirm('Hapus pemasok {{ $pemasok->nama_pemasok }}?')" class="btn-mini-delete">
+                <a href="javascript:void(0)" class="btn-mini-edit btn-edit-pemasok" data-id="{{ $pemasok->id }}" data-nama_pemasok="{{ $pemasok->nama_pemasok }}" data-alamat="{{ $pemasok->alamat }}" data-no_telp="{{ $pemasok->no_telp }}" title="Ubah">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+                <a href="{{ url('/hapus-pemasok/'.$pemasok->id) }}" onclick="return confirm('Hapus pemasok {{ $pemasok->nama_pemasok }}?')" class="btn-mini-delete" title="Hapus">
                   <i class="fa-solid fa-trash-can"></i>
                 </a>
               </div>
@@ -409,7 +132,10 @@ html, body {
               <div class="col-3-reduced">{{ $jongko->nama_jongko }}</div>
               <div class="col-3-reduced">{{ $jongko->alamat }}</div>
               <div class="col-5-action">
-                <a href="{{ url('/hapus-jongko/'.$jongko->id) }}" onclick="return confirm('Hapus jongko {{ $jongko->nama_jongko }}?')" class="btn-mini-delete">
+                <a href="javascript:void(0)" class="btn-mini-edit btn-edit-jongko" data-id="{{ $jongko->id }}" data-nama_jongko="{{ $jongko->nama_jongko }}" data-alamat="{{ $jongko->alamat }}" title="Ubah">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+                <a href="{{ url('/hapus-jongko/'.$jongko->id) }}" onclick="return confirm('Hapus jongko {{ $jongko->nama_jongko }}?')" class="btn-mini-delete" title="Hapus">
                   <i class="fa-solid fa-trash-can"></i>
                 </a>
               </div>
@@ -441,7 +167,10 @@ html, body {
               <div class="col-4-reduced">{{ $pegawai->no_telp }}</div>
               <div class="col-5-action">
                 @if($pegawai->role !== 'admin')
-                  <a href="{{ url('/hapus-pegawai/'.$pegawai->id) }}" onclick="return confirm('Hapus pegawai {{ $pegawai->nama_pegawai }}?')" class="btn-mini-delete">
+                  <a href="javascript:void(0)" class="btn-mini-edit btn-edit-pegawai" data-id="{{ $pegawai->id }}" data-nama_pegawai="{{ $pegawai->nama_pegawai }}" data-alamat="{{ $pegawai->alamat }}" data-no_telp="{{ $pegawai->no_telp }}" data-username="{{ $pegawai->username }}" title="Ubah">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </a>
+                  <a href="{{ url('/hapus-pegawai/'.$pegawai->id) }}" onclick="return confirm('Hapus pegawai {{ $pegawai->nama_pegawai }}?')" class="btn-mini-delete" title="Hapus">
                     <i class="fa-solid fa-trash-can"></i>
                   </a>
                 @else
@@ -461,6 +190,9 @@ html, body {
   </div> 
 
   <div class="add-data-action-container">
+    <a href="{{ url('/pendataan/tempat-sampah') }}" class="trash-nav-btn">
+      <i class="fa-solid fa-trash-can"></i> Tempat Sampah
+    </a>
     <button type="button" class="add-data-btn" onclick="toggleModalForm(true)">
       + Tambah Data
     </button>
@@ -485,7 +217,7 @@ html, body {
 
   <div class="bg-gradient-bottom"></div>
 
-  <div class="bottom-nav-bar">
+  <div class="admin-bottom-nav">
     <div class="nav-icon" onclick="location.href='{{ url('/dashboard-admin') }}'">
       <img src="{{ asset('Images/rumah.svg') }}" alt="Home Icon" />
     </div>
@@ -569,8 +301,28 @@ html, body {
             <div class="input-field-wrapper" style="margin-bottom: 12px;"><input type="text" placeholder="Alamat" name="alamat" required></div>
             <div class="input-field-wrapper" style="margin-bottom: 12px;"><input type="text" placeholder="No HP" name="no_telp" required></div>
             <div class="input-field-wrapper" style="margin-bottom: 12px;"><input type="text" placeholder="Buat Username Login" name="username" required></div>
-            <div class="input-field-wrapper"><input type="password" placeholder="Buat Password Login" name="password" required></div>
+            <div style="font-size: 11px; color: #e6005c; margin-bottom: 4px; padding-left: 5px; font-weight: 600; text-align: left; width: 100%;">* Password minimal harus 6 karakter</div>
+            <div class="input-field-wrapper">
+                <input type="password" placeholder="Buat Password Login" name="password" id="pegawai-password" required style="padding-right: 45px;" minlength="6">
+                <i class="fa-solid fa-eye" id="eyeIconPegawai" onclick="togglePegawaiPassword()" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #666666; font-size: 16px; z-index: 4;"></i>
+            </div>
         `;
+    }
+  }
+
+  function togglePegawaiPassword() {
+    const passwordInput = document.getElementById('pegawai-password');
+    const eyeIcon = document.getElementById('eyeIconPegawai');
+    if (passwordInput && eyeIcon) {
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        eyeIcon.classList.remove('fa-eye');
+        eyeIcon.classList.add('fa-eye-slash');
+      } else {
+        passwordInput.type = 'password';
+        eyeIcon.classList.remove('fa-eye-slash');
+        eyeIcon.classList.add('fa-eye');
+      }
     }
   }
 
@@ -585,11 +337,128 @@ html, body {
     }
   }
 
+  // Fungsi untuk membuka modal edit dengan data terisi secara dinamis
+  function openEditModal(type, id, data) {
+    const modal = document.getElementById('form-bottom-sheet');
+    const modalTitle = document.getElementById('dynamic-modal-title');
+    const mainForm = document.getElementById('dynamic-modal-form');
+    const inputContainer = document.getElementById('dynamic-inputs-container');
+
+    if (!modal || !modalTitle || !mainForm || !inputContainer) return;
+
+    if (type === 'produk') {
+      modalTitle.textContent = "Ubah Produk";
+      mainForm.action = `/update-produk/${id}`;
+      inputContainer.innerHTML = `
+        <div class="input-field-wrapper" style="margin-bottom: 12px;">
+          <input type="text" placeholder="Nama Produk" name="nama_produk" value="${data.nama_produk || ''}" required>
+        </div>
+        <div class="input-field-wrapper" style="margin-bottom: 12px;">
+          <input type="text" placeholder="Jenis" name="jenis" value="${data.jenis || ''}" required>
+        </div>
+        <div class="input-field-wrapper">
+          <input type="text" placeholder="Ukuran" name="ukuran" value="${data.ukuran || ''}" required>
+        </div>
+      `;
+    } else if (type === 'pemasok') {
+      modalTitle.textContent = "Ubah Pemasok";
+      mainForm.action = `/update-pemasok/${id}`;
+      inputContainer.innerHTML = `
+        <div class="input-field-wrapper" style="margin-bottom: 12px;">
+          <input type="text" placeholder="Nama Pemasok" name="nama_pemasok" value="${data.nama_pemasok || ''}" required>
+        </div>
+        <div class="input-field-wrapper" style="margin-bottom: 12px;">
+          <input type="text" placeholder="Alamat" name="alamat" value="${data.alamat || ''}" required>
+        </div>
+        <div class="input-field-wrapper">
+          <input type="text" placeholder="No HP" name="no_telp" value="${data.no_telp || ''}" required>
+        </div>
+      `;
+    } else if (type === 'jongko') {
+      modalTitle.textContent = "Ubah Jongko";
+      mainForm.action = `/update-jongko/${id}`;
+      inputContainer.innerHTML = `
+        <div class="input-field-wrapper" style="margin-bottom: 12px;">
+          <input type="text" placeholder="Nama Jongko" name="nama_jongko" value="${data.nama_jongko || ''}" required>
+        </div>
+        <div class="input-field-wrapper">
+          <input type="text" placeholder="Alamat" name="alamat" value="${data.alamat || ''}" required>
+        </div>
+      `;
+    } else if (type === 'pegawai') {
+      modalTitle.textContent = "Ubah Pegawai";
+      mainForm.action = `/update-pegawai/${id}`;
+      inputContainer.innerHTML = `
+        <div class="input-field-wrapper" style="margin-bottom: 12px;">
+          <input type="text" placeholder="Nama Pegawai" name="nama_pegawai" value="${data.nama_pegawai || ''}" required>
+        </div>
+        <div class="input-field-wrapper" style="margin-bottom: 12px;">
+          <input type="text" placeholder="Alamat" name="alamat" value="${data.alamat || ''}" required>
+        </div>
+        <div class="input-field-wrapper" style="margin-bottom: 12px;">
+          <input type="text" placeholder="No HP" name="no_telp" value="${data.no_telp || ''}" required>
+        </div>
+        <div class="input-field-wrapper" style="margin-bottom: 12px;">
+          <input type="text" placeholder="Username Login" name="username" value="${data.username || ''}" required>
+        </div>
+        <div style="font-size: 11px; color: #e6005c; margin-bottom: 4px; padding-left: 5px; font-weight: 600; text-align: left; width: 100%;">
+          * Kosongkan password jika tidak ingin diubah (min. 6 karakter jika diisi)
+        </div>
+        <div class="input-field-wrapper">
+          <input type="password" placeholder="Password Baru (Opsional)" name="password" id="pegawai-password" style="padding-right: 45px;" minlength="6">
+          <i class="fa-solid fa-eye" id="eyeIconPegawai" onclick="togglePegawaiPassword()" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #666666; font-size: 16px; z-index: 4;"></i>
+        </div>
+      `;
+    }
+
+    modal.style.display = 'block';
+  }
+
+  // Interseptor Klik Tombol Edit
+  document.addEventListener('click', function(e) {
+    const editProdukBtn = e.target.closest('.btn-edit-produk');
+    if (editProdukBtn) {
+      const id = editProdukBtn.getAttribute('data-id');
+      const nama = editProdukBtn.getAttribute('data-nama_produk');
+      const jenis = editProdukBtn.getAttribute('data-jenis');
+      const ukuran = editProdukBtn.getAttribute('data-ukuran');
+      openEditModal('produk', id, { nama_produk: nama, jenis: jenis, ukuran: ukuran });
+    }
+
+    const editPemasokBtn = e.target.closest('.btn-edit-pemasok');
+    if (editPemasokBtn) {
+      const id = editPemasokBtn.getAttribute('data-id');
+      const nama = editPemasokBtn.getAttribute('data-nama_pemasok');
+      const alamat = editPemasokBtn.getAttribute('data-alamat');
+      const no_telp = editPemasokBtn.getAttribute('data-no_telp');
+      openEditModal('pemasok', id, { nama_pemasok: nama, alamat: alamat, no_telp: no_telp });
+    }
+
+    const editJongkoBtn = e.target.closest('.btn-edit-jongko');
+    if (editJongkoBtn) {
+      const id = editJongkoBtn.getAttribute('data-id');
+      const nama = editJongkoBtn.getAttribute('data-nama_jongko');
+      const alamat = editJongkoBtn.getAttribute('data-alamat');
+      openEditModal('jongko', id, { nama_jongko: nama, alamat: alamat });
+    }
+
+    const editPegawaiBtn = e.target.closest('.btn-edit-pegawai');
+    if (editPegawaiBtn) {
+      const id = editPegawaiBtn.getAttribute('data-id');
+      const nama = editPegawaiBtn.getAttribute('data-nama_pegawai');
+      const alamat = editPegawaiBtn.getAttribute('data-alamat');
+      const no_telp = editPegawaiBtn.getAttribute('data-no_telp');
+      const username = editPegawaiBtn.getAttribute('data-username');
+      openEditModal('pegawai', id, { nama_pegawai: nama, alamat: alamat, no_telp: no_telp, username: username });
+    }
+  });
+
   document.addEventListener("DOMContentLoaded", function() {
     const lastActiveTab = localStorage.getItem('activeTabPendataan') || 'produk';
     switchTabArea(lastActiveTab);
   });
 </script>
 
+<script src="{{ asset('js/shared.js') }}"></script>
 </body>
 </html>

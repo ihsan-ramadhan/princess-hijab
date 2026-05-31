@@ -13,6 +13,7 @@ class Transaksi extends Model
     protected $fillable = [
         'produk_id',
         'jongko_id',
+        'pegawai_id',
         'jumlah_terjual',
         'total_harga',
     ];
@@ -31,5 +32,13 @@ class Transaksi extends Model
     public function jongko()
     {
         return $this->belongsTo(Jongko::class, 'jongko_id');
+    }
+
+    /**
+     * Relasi ke Model Pegawai (Satu transaksi dicatat oleh satu pegawai)
+     */
+    public function pegawai()
+    {
+        return $this->belongsTo(Pegawai::class, 'pegawai_id');
     }
 }

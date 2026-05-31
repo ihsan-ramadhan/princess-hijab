@@ -58,18 +58,38 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::post('/store-pemasok', [PemasokController::class, 'store']);
     Route::post('/store-jongko', [JongkoController::class, 'store']);
 
+    Route::post('/update-pegawai/{id}', [PegawaiController::class, 'update']);
+    Route::post('/update-produk/{id}', [ProdukController::class, 'update']);
+    Route::post('/update-pemasok/{id}', [PemasokController::class, 'update']);
+    Route::post('/update-jongko/{id}', [JongkoController::class, 'update']);
+
     // Route Hapus Data — hanya admin yang bisa menghapus
     Route::get('/hapus-pegawai/{id}', [PegawaiController::class, 'hapusPegawai']);
     Route::get('/hapus-produk/{id}', [PegawaiController::class, 'hapusProduk']);
     Route::get('/hapus-pemasok/{id}', [PegawaiController::class, 'hapusPemasok']);
     Route::get('/hapus-jongko/{id}', [PegawaiController::class, 'hapusJongko']);
 
+    // Trash / Tempat Sampah UI & Actions (Temuan 19)
+    Route::get('/pendataan/tempat-sampah', [PegawaiController::class, 'trashIndex']);
+    
+    Route::get('/pulihkan-pegawai/{id}', [PegawaiController::class, 'pulihkanPegawai']);
+    Route::get('/pulihkan-produk/{id}', [PegawaiController::class, 'pulihkanProduk']);
+    Route::get('/pulihkan-pemasok/{id}', [PegawaiController::class, 'pulihkanPemasok']);
+    Route::get('/pulihkan-jongko/{id}', [PegawaiController::class, 'pulihkanJongko']);
+    
+    Route::get('/permanen-pegawai/{id}', [PegawaiController::class, 'permanenPegawai']);
+    Route::get('/permanen-produk/{id}', [PegawaiController::class, 'permanenProduk']);
+    Route::get('/permanen-pemasok/{id}', [PegawaiController::class, 'permanenPemasok']);
+    Route::get('/permanen-jongko/{id}', [PegawaiController::class, 'permanenJongko']);
+
     // API Laporan — dilindungi, hanya admin
     Route::get('/api/ambil-rekap', function (Request $request) {
         $mode  = $request->query('mode');
         $waktu = $request->query('waktu');
 
-        $all_jongko = Jongko::orderBy('id', 'asc')->get();
+        $all_jongko = \Illuminate\Support\Facades\Cache::rememberForever('cache_all_jongko', function () {
+            return Jongko::orderBy('id', 'asc')->get();
+        });
         $jongko_data = [];
         $total_keseluruhan = 0;
 
