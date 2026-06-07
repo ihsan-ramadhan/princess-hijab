@@ -128,53 +128,88 @@ class TransaksiController extends Controller
     }
 
     /**
-     * 5. Menampilkan Halaman Dashboard Admin dengan Omset Hari Ini Riil (SINKRON DENGAN UPPAH)
+     * 5. Menampilkan Halaman Dashboard Admin dengan Omset Bulan Ini & Akumulasi Kas
      */
     public function dashboardAdmin()
     {
-        $hari_ini = now()->toDateString();
+        $awal_bulan = now()->startOfMonth()->toDateString();
+        $akhir_bulan = now()->endOfMonth()->toDateString();
 
-        // Hitung total omset penjualan riil dari seluruh transaksi toko khusus hari ini
-        $omset_hari_ini = Transaksi::whereDate('created_at', $hari_ini)->sum('total_harga') ?? 0;
+        // 1. Omset Bulan Ini (Akumulasi penjualan bulan berjalan)
+        $omset_bulan_ini = Transaksi::whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->sum('total_harga') ?? 0;
 
-        // Ambil rekap data per pegawai hari ini agar sinkron total dengan tabel pengupahan bawah dari cache (Temuan #15)
-        $rekap_data = Cache::rememberForever('cache_pegawai_non_admin', function () {
-            return Pegawai::with('jongko')->where('role', '!=', 'admin')->orderBy('id', 'asc')->get();
-        })->map(function($pegawai) use ($hari_ini) {
+        // 2. Pengeluaran Bulan Ini (Akumulasi pengeluaran operasional + upah bulan berjalan)
+        $pengeluaran_tabel_bulan_ini = \App\Models\Pengeluaran::whereMonth('tanggal', now()->month)
+            ->whereYear('tanggal', now()->year)
+            ->sum('total') ?? 0;
+
+        // Hitung total upah pegawai bulan berjalan
+        $activeDaysBulanIni = DB::table('transaksis')
+            ->select('pegawai_id', DB::raw('DATE(created_at) as tanggal'))
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->groupBy('pegawai_id', 'tanggal')
+            ->get();
+
+        $upah_bulan_ini = 0;
+        foreach ($activeDaysBulanIni as $day) {
+            $totalPenjualanHari = Transaksi::where('pegawai_id', $day->pegawai_id)
+                ->whereDate('created_at', $day->tanggal)
+                ->sum('total_harga') ?? 0;
             
-            // Menghitung total jualan oleh pegawai tersebut khusus hari ini (Temuan #6 & #7)
-            $total_jualan = Transaksi::where('pegawai_id', $pegawai->id)
-                                     ->whereDate('created_at', $hari_ini)
-                                     ->sum('total_harga') ?? 0;
+            $upah = Pegawai::hitungUpah($totalPenjualanHari);
+            $upah_bulan_ini += $upah['bersih'];
+        }
 
-            // Dapatkan jongko aktif harian pegawai dari database
-            $nama_jongko = $pegawai->jongko ? $pegawai->jongko->nama_jongko : '-';
+        $pengeluaran_bulan_ini = $pengeluaran_tabel_bulan_ini + $upah_bulan_ini;
 
-            // RUMUS FIX: Menggunakan model terpusat (Temuan #16)
-            $upah = Pegawai::hitungUpah($total_jualan);
+        // 3. Laba Bulan Ini
+        $laba_bulan_ini = $omset_bulan_ini - $pengeluaran_bulan_ini;
+
+        // 4. Saldo Kas Usaha (Saldo Awal + Total Penerimaan - Total Pengeluaran)
+        $saldo_awal = 10000000; // Rp 10.000.000 (Saldo Awal)
+        
+        $total_penerimaan = Transaksi::sum('total_harga') ?? 0;
+        $total_pengeluaran_tabel = \App\Models\Pengeluaran::sum('total') ?? 0;
+
+        // Hitung total upah pegawai all-time
+        $activeDaysAllTime = DB::table('transaksis')
+            ->select('pegawai_id', DB::raw('DATE(created_at) as tanggal'))
+            ->groupBy('pegawai_id', 'tanggal')
+            ->get();
+
+        $total_upah_all_time = 0;
+        foreach ($activeDaysAllTime as $day) {
+            $totalPenjualanHari = Transaksi::where('pegawai_id', $day->pegawai_id)
+                ->whereDate('created_at', $day->tanggal)
+                ->sum('total_harga') ?? 0;
             
-            $pegawai->nama_jongko = $nama_jongko;
-            $pegawai->total_penjualan = $total_jualan;
-            $pegawai->total_upah = $upah['bersih']; 
-            return $pegawai;
-        });
 
-        // Hitung pengeluaran harian
-        $pengeluaran_hari_ini = \App\Models\Pengeluaran::whereDate('tanggal', $hari_ini)->sum('total') ?? 0;
+            $upah = Pegawai::hitungUpah($totalPenjualanHari);
+            $total_upah_all_time += $upah['bersih'];
+        }
 
-        // Hitung total upah pegawai hari ini
-        $upah_hari_ini = $rekap_data->sum('total_upah') ?? 0;
+        $total_pengeluaran = $total_pengeluaran_tabel + $total_upah_all_time;
+        $saldo_kas_usaha = $saldo_awal + $total_penerimaan - $total_pengeluaran;
 
-        // Hitung estimasi penghasilan bersih
-        $bersih_hari_ini = $omset_hari_ini - $pengeluaran_hari_ini - $upah_hari_ini;
+        // New calculations for Syariah management
+        $target_dana_darurat = 3 * $pengeluaran_bulan_ini; // 3 months of expenses
+        $prive_maks = $saldo_kas_usaha - $target_dana_darurat;
+        if ($prive_maks < 0) {
+            $prive_maks = 0;
+        }
 
         return view('dashboard-admin', compact(
-            'omset_hari_ini', 
-            'pengeluaran_hari_ini', 
-            'upah_hari_ini', 
-            'bersih_hari_ini', 
-            'rekap_data'
+            'omset_bulan_ini', 
+            'pengeluaran_bulan_ini', 
+            'laba_bulan_ini', 
+            'saldo_kas_usaha',
+            'target_dana_darurat',
+            'prive_maks'
         ));
+
     }
 
     /**
@@ -305,5 +340,81 @@ class TransaksiController extends Controller
 
         // 5. Download otomatis file PDF-nya
         return $pdf->download('Laporan_Gaji_Pegawai_Princess_Hijab_' . date('Ymd') . '.pdf');
+    }
+
+    /**
+     * 9. Menampilkan halaman rekomendasi alokasi dana laba bulan berjalan (Keuangan Syariah)
+     */
+    public function alokasiDana(Request $request)
+    {
+        // 1. Ambil Laba Bulan Ini
+        $omset_bulan_ini = Transaksi::whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->sum('total_harga') ?? 0;
+
+        $awal_bulan = now()->startOfMonth()->toDateString();
+        $akhir_bulan = now()->endOfMonth()->toDateString();
+        $pengeluaran_tabel_bulan_ini = \App\Models\Pengeluaran::whereMonth('tanggal', now()->month)
+            ->whereYear('tanggal', now()->year)
+            ->sum('total') ?? 0;
+
+        $activeDaysBulanIni = DB::table('transaksis')
+            ->select('pegawai_id', DB::raw('DATE(created_at) as tanggal'))
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->groupBy('pegawai_id', 'tanggal')
+            ->get();
+
+        $upah_bulan_ini = 0;
+        foreach ($activeDaysBulanIni as $day) {
+            $totalPenjualanHari = Transaksi::where('pegawai_id', $day->pegawai_id)
+                ->whereDate('created_at', $day->tanggal)
+                ->sum('total_harga') ?? 0;
+            
+            $upah = Pegawai::hitungUpah($totalPenjualanHari);
+            $upah_bulan_ini += $upah['bersih'];
+        }
+
+        $pengeluaran_bulan_ini = $pengeluaran_tabel_bulan_ini + $upah_bulan_ini;
+        $laba_bulan_ini = $omset_bulan_ini - $pengeluaran_bulan_ini;
+
+        // 2. Ambil persentase alokasi dari Cache (jika tidak ada, gunakan default)
+        $persentase = Cache::rememberForever('cache_alokasi_persentase', function() {
+            return [
+                'operasional' => 40,
+                'darurat' => 10,
+                'pengembangan' => 20,
+                'pemilik' => 30
+            ];
+        });
+
+        return view('alokasi-dana', compact('laba_bulan_ini', 'persentase'));
+    }
+
+    /**
+     * 10. Menyimpan persentase alokasi dana baru ke dalam Cache
+     */
+    public function updateAlokasiDana(Request $request)
+    {
+        $request->validate([
+            'operasional' => 'required|integer|min:0|max:100',
+            'darurat' => 'required|integer|min:0|max:100',
+            'pengembangan' => 'required|integer|min:0|max:100',
+            'pemilik' => 'required|integer|min:0|max:100',
+        ]);
+
+        $total = $request->operasional + $request->darurat + $request->pengembangan + $request->pemilik;
+        if ($total !== 100) {
+            return redirect()->back()->withInput()->with('error', 'Total persentase alokasi harus tepat 100%! Saat ini: ' . $total . '%');
+        }
+
+        Cache::forever('cache_alokasi_persentase', [
+            'operasional' => (int) $request->operasional,
+            'darurat' => (int) $request->darurat,
+            'pengembangan' => (int) $request->pengembangan,
+            'pemilik' => (int) $request->pemilik,
+        ]);
+
+        return redirect()->back()->with('sukses', 'Rekomendasi alokasi dana syariah berhasil diperbarui!');
     }
 }

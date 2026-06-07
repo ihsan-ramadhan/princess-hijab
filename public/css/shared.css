@@ -182,12 +182,8 @@ html, body {
   bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
-<<<<<<< Updated upstream
-  width: 90%;
-  max-width: 300px;
-=======
   width: 340px;
->>>>>>> Stashed changes
+  max-width: 90%;
   height: 60px;
   border-radius: 40px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -2388,3 +2384,283 @@ html, body {
     background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(245, 185, 219, 1) 100%);
     z-index: 1;
 }
+
+/* ==========================================================================
+   MODERN DASHBOARD REDESIGN STYLES
+   ========================================================================== */
+
+/* 1. 2x2 Financial Cards Grid */
+.page-dashboard-admin .keuangan-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 25px;
+}
+
+.page-dashboard-admin .keuangan-card {
+    border: 1.5px solid var(--dark-border);
+    border-radius: 16px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 105px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease;
+    text-decoration: none;
+    color: var(--dark-text);
+}
+
+.page-dashboard-admin .keuangan-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.08);
+}
+
+.page-dashboard-admin .keuangan-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 4px;
+}
+
+.page-dashboard-admin .keuangan-card-title {
+    font-size: 10px;
+    font-weight: 600;
+    color: #444444;
+}
+
+.page-dashboard-admin .keuangan-card-icon {
+    font-size: 14px;
+}
+
+.page-dashboard-admin .keuangan-card-value {
+    font-size: 14px;
+    font-weight: 700;
+    color: #000000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: auto;
+}
+
+.page-dashboard-admin .keuangan-card-subtext {
+    font-size: 8px;
+    font-weight: 500;
+    color: #666666;
+    margin-top: 2px;
+}
+
+/* Card Backgrounds */
+.page-dashboard-admin .card-kuning {
+    background-color: var(--primary-yellow);
+}
+.page-dashboard-admin .card-pink {
+    background-color: var(--primary-pink);
+}
+.page-dashboard-admin .card-hijau {
+    background-color: var(--primary-green);
+}
+.page-dashboard-admin .card-biru {
+    background-color: var(--primary-blue);
+}
+
+/* 2. Menu Section */
+.page-dashboard-admin .menu-section-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--dark-text);
+    margin: 20px 0 10px 0 !important;
+    position: relative;
+    z-index: 2;
+}
+
+/* 2x2 Menu Grid */
+.page-dashboard-admin .menu-shortcut-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+.page-dashboard-admin .menu-shortcut-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--glass-white);
+    border: 1.5px solid var(--dark-border);
+    border-radius: 18px;
+    padding: 15px 10px;
+    cursor: pointer;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04);
+    text-decoration: none;
+    color: var(--dark-text);
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.page-dashboard-admin .menu-shortcut-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.08);
+    background: rgba(255, 255, 255, 0.85);
+}
+
+.page-dashboard-admin .menu-shortcut-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1.5px solid var(--dark-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    box-shadow: inset 0px 2px 4px rgba(0,0,0,0.05);
+}
+
+.page-dashboard-admin .menu-shortcut-icon img {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+}
+
+.page-dashboard-admin .menu-shortcut-text {
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* 3. Sharia Banner Card */
+.page-dashboard-admin .sharia-banner-card {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(214, 252, 205, 0.8) 100%);
+    border: 1.5px solid var(--dark-border);
+    border-radius: 18px;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: var(--dark-text);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04);
+    position: relative;
+    z-index: 2;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease;
+}
+
+.page-dashboard-admin .sharia-banner-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.08);
+}
+
+.page-dashboard-admin .sharia-banner-icon {
+    font-size: 24px;
+    margin-right: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-dashboard-admin .sharia-banner-content {
+    flex: 1;
+}
+
+.page-dashboard-admin .sharia-banner-title {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 3px;
+}
+
+.page-dashboard-admin .sharia-banner-desc {
+    font-size: 9px;
+    font-weight: 500;
+    color: #555555;
+    line-height: 1.3;
+}
+
+.page-dashboard-admin .sharia-banner-arrow {
+    font-size: 14px;
+    font-weight: bold;
+    color: #444444;
+    margin-left: 10px;
+    transition: transform 0.2s ease;
+}
+
+/* Keuangan Card Icon Circle (like menu shortcut icons) */
+.page-dashboard-admin .keuangan-card-icon-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--dark-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0px 1px 3px rgba(0,0,0,0.05);
+    flex-shrink: 0;
+}
+
+.page-dashboard-admin .keuangan-card-icon-circle img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+}
+
+/* Rekomendasi Alokasi Dana - Row Layout */
+.page-dashboard-admin .rekomendasi-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 12px 0;
+    position: relative;
+    z-index: 2;
+}
+
+.page-dashboard-admin .rekomendasi-row-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1.5px solid var(--dark-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: inset 0px 2px 4px rgba(0,0,0,0.05);
+}
+
+.page-dashboard-admin .rekomendasi-row-icon img {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+}
+
+.page-dashboard-admin .rekomendasi-row-label {
+    flex: 1;
+    font-family: "Montserrat Alternates", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dark-text);
+}
+
+.page-dashboard-admin .rekomendasi-row-badge {
+    background-color: #d6fccd;
+    border-radius: 20px;
+    padding: 8px 16px;
+    flex-shrink: 0;
+    max-width: 140px;
+}
+
+.page-dashboard-admin .rekomendasi-row-badge span {
+    font-family: "Montserrat Alternates", sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--dark-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+

@@ -81,18 +81,11 @@
         <div class="div"></div>
 
         <div class="admin-bottom-nav">
-<<<<<<< Updated upstream
             <a href="/dashboard-admin" class="nav-item nav-rumah"><img src="{{ asset('images/rumah.svg') }}"></a>
             <a href="/rekap-omset" class="nav-item nav-uang"><img src="{{ asset('images/uang-hitam.svg') }}"></a>
+            <a href="/pengeluaran" class="nav-item"><img src="{{ asset('images/dompet hitam.svg') }}"></a>
             <a href="/upah-pegawai" class="nav-item nav-love active"><img src="{{ asset('images/tangan-love.svg') }}"></a>
             <a href="/pendataan" class="nav-item nav-catat"><img src="{{ asset('images/catatan-hitam.svg') }}"></a>
-=======
-            <a href="/dashboard-admin" class="nav-item nav-rumah"><img src="{{ asset('images/rumah.svg') }}"></a>
-            <a href="/rekap-omset" class="nav-item nav-uang"><img src="{{ asset('images/uang hitam.svg') }}"></a>
-            <a href="/pengeluaran" class="nav-item"><img src="{{ asset('images/dompet-hitam.svg') }}"></a>
-            <a href="/upah-pegawai" class="nav-item nav-love active"><img src="{{ asset('images/tangan-love.svg') }}"></a>
-            <a href="/pendataan" class="nav-item nav-catat"><img src="{{ asset('images/catatan-hitam.svg') }}"></a>
->>>>>>> Stashed changes
         </div>
     </div>
 

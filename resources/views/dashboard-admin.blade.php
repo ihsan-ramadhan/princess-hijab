@@ -6,108 +6,136 @@
 <title>Dashboard Admin - Princess Hijab</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@500;600&display=swap" rel="stylesheet">
-
-<link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('css/shared.css') }}">
-<style>
-  .page-dashboard-admin .menu-section-title {
-    margin-top: 35px !important;
-    margin-bottom: 12px !important;
-  }
-  .page-dashboard-admin .menu-list {
-    gap: 15px !important;
-  }
-  .page-dashboard-admin .menu-item {
-    height: 95px !important;
-  }
-  .page-dashboard-admin .menu-text {
-    font-size: 20px !important;
-  }
-  .page-dashboard-admin .menu-icon {
-    width: 50px !important;
-    height: 50px !important;
-  }
-</style>
 </head>
 <body>
 
 <div class="android-compact page-dashboard-admin" style="padding: 0 25px 40px;">
-  <div class="bg-pink-top"></div>
+  <div class="bg-pink-top" style="height: 140px;"></div>
   
-  <div class="header-profile">
+  <div class="header-profile" style="margin-bottom: 20px;">
     <div class="welcome-text">
-      <div class="admin-name" style="font-size: 21px; font-weight: 600; line-height: 1.2;">Selamat Datang di Dashboard Admin</div>
+      <div class="admin-name" style="font-size: 21px; font-weight: 700; line-height: 1.2;">Dashboard Admin</div>
+      <div style="font-size: 12px; font-weight: 500; color: #555555;" id="real-time-date">-- Juni 2026</div>
     </div>
     <a href="{{ url('/logout') }}" class="ic-baseline-face" title="Logout" style="cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; justify-content: center;">
       <img src="{{ asset('images/keluar.svg') }}" alt="Logout" style="width: 35px; height: 35px;" />
     </a>
   </div>
   
-  <div class="card-keuangan-container" style="position: relative; z-index: 2; width: 100%; background: var(--glass-white); border-radius: 30px; border: 2px solid #000000; padding: 15px 20px; box-shadow: var(--shadow-main); display: flex; flex-direction: column; gap: 12px;">
-    <div class="card-keuangan-header" style="display: flex; justify-content: space-between; align-items: center;">
-      <span style="font-size: 15px; font-weight: 600; color: #000000;">Keuangan Hari Ini</span>
-      <span style="font-size: 12px; font-weight: 500; color: #666666;" id="real-time-date">-- Juni 2026</span>
+  <!-- 4 Kartu Finansial Terpisah (2x2 Grid) -->
+  <div class="keuangan-cards-grid">
+    <!-- Card 1: Omset Bulan Ini (Kuning Pastel) -->
+    <div class="keuangan-card card-kuning" onclick="location.href='/rekap-omset'">
+      <div class="keuangan-card-header">
+        <span class="keuangan-card-title">Omset Bulan Ini</span>
+        <div class="keuangan-card-icon-circle" style="background-color: var(--primary-yellow);">
+          <img src="{{ asset('images/uang.svg') }}" alt="Icon Omset" />
+        </div>
+      </div>
+      <span class="keuangan-card-value">Rp {{ number_format($omset_bulan_ini, 0, ',', '.') }}</span>
+      <span class="keuangan-card-subtext">Total Penjualan</span>
     </div>
     
-    <div class="keuangan-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-      <!-- Omset -->
-      <div class="keuangan-box" style="background: #FDF6C8; border: 1.5px solid #000000; border-radius: 18px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: space-between; height: 62px;">
-        <span style="font-size: 9px; font-weight: 600; color: #666666;">Omset</span>
-        <span style="font-size: 12px; font-weight: 700; color: #000000; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Rp {{ number_format($omset_hari_ini, 0, ',', '.') }}</span>
+    <!-- Card 2: Pengeluaran Bulan Ini (Pink Pastel) -->
+    <div class="keuangan-card card-pink" onclick="location.href='/pengeluaran'">
+      <div class="keuangan-card-header">
+        <span class="keuangan-card-title">Pengeluaran Bulan Ini</span>
+        <div class="keuangan-card-icon-circle" style="background-color: var(--primary-pink);">
+          <img src="{{ asset('images/dompet.svg') }}" alt="Icon Pengeluaran" />
+        </div>
       </div>
-      
-      <!-- Pengeluaran -->
-      <div class="keuangan-box" style="background: #F5B9DB; border: 1.5px solid #000000; border-radius: 18px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: space-between; height: 62px;">
-        <span style="font-size: 9px; font-weight: 600; color: #666666;">Pengeluaran</span>
-        <span style="font-size: 12px; font-weight: 700; color: #000000; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Rp {{ number_format($pengeluaran_hari_ini, 0, ',', '.') }}</span>
+      <span class="keuangan-card-value">Rp {{ number_format($pengeluaran_bulan_ini, 0, ',', '.') }}</span>
+      <span class="keuangan-card-subtext">Operasional & Gaji</span>
+    </div>
+    
+    <!-- Card 3: Laba Bulan Ini (Hijau Pastel) -->
+    <div class="keuangan-card card-hijau" onclick="location.href='/alokasi-dana'">
+      <div class="keuangan-card-header">
+        <span class="keuangan-card-title">Laba Bulan Ini</span>
+        <div class="keuangan-card-icon-circle" style="background-color: var(--primary-green);">
+          <img src="{{ asset('images/catatan.svg') }}" alt="Icon Laba" />
+        </div>
       </div>
-      
-      <!-- Upah -->
-      <div class="keuangan-box" style="background: #D6FCCD; border: 1.5px solid #000000; border-radius: 18px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: space-between; height: 62px;">
-        <span style="font-size: 9px; font-weight: 600; color: #666666;">Upah Pegawai</span>
-        <span style="font-size: 12px; font-weight: 700; color: #000000; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Rp {{ number_format($upah_hari_ini, 0, ',', '.') }}</span>
+      <span class="keuangan-card-value">Rp {{ number_format($laba_bulan_ini, 0, ',', '.') }}</span>
+      <span class="keuangan-card-subtext">Omset - Pengeluaran</span>
+    </div>
+    
+    <!-- Card 4: Saldo Kas Usaha (Biru Pastel) -->
+    <div class="keuangan-card card-biru">
+      <div class="keuangan-card-header">
+        <span class="keuangan-card-title">Saldo Kas Usaha</span>
+        <div class="keuangan-card-icon-circle" style="background-color: var(--primary-blue);">
+          <img src="{{ asset('images/memberi.svg') }}" alt="Icon Saldo" />
+        </div>
       </div>
-      
-      <!-- Bersih -->
-      <div class="keuangan-box" style="background: #C1D6F3; border: 1.5px solid #000000; border-radius: 18px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: space-between; height: 62px;">
-        <span style="font-size: 9px; font-weight: 600; color: #666666;">Estimasi Bersih</span>
-        <span style="font-size: 12px; font-weight: 700; color: #000000; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Rp {{ number_format($bersih_hari_ini, 0, ',', '.') }}</span>
-      </div>
+      <span class="keuangan-card-value">Rp {{ number_format($saldo_kas_usaha, 0, ',', '.') }}</span>
+      <span class="keuangan-card-subtext">Kas Aktif Terakumulasi</span>
     </div>
   </div>
   
-  <div class="menu-section-title">Menu</div>
+  <div class="menu-section-title">Menu Utama</div>
   
-  <div class="menu-list">
-    <div class="menu-item menu-rekap" onclick="location.href='/rekap-omset'">
-      <span class="menu-text">Rekap Omset</span>
-      <div class="menu-icon">
+  <!-- Grid Shortcut Menu (2x2 Grid) -->
+  <div class="menu-shortcut-grid">
+    <a href="{{ url('/rekap-omset') }}" class="menu-shortcut-item">
+      <div class="menu-shortcut-icon" style="background-color: var(--primary-blue);">
         <img src="{{ asset('images/uang.svg') }}" alt="Icon Rekap Omset" />
       </div>
-    </div>
+      <span class="menu-shortcut-text">Rekap Omset</span>
+    </a>
     
-    <div class="menu-item menu-upah" onclick="location.href='/upah-pegawai'">
-      <span class="menu-text">Upah Pegawai</span>
-      <div class="menu-icon">
+    <a href="{{ url('/upah-pegawai') }}" class="menu-shortcut-item">
+      <div class="menu-shortcut-icon" style="background-color: var(--primary-green);">
         <img src="{{ asset('images/memberi.svg') }}" alt="Icon Upah Pegawai" />
       </div>
-    </div>
+      <span class="menu-shortcut-text">Upah Pegawai</span>
+    </a>
 
-    <div class="menu-item" style="background-color: rgba(193, 214, 243, 1);" onclick="location.href='/pengeluaran'">
-      <span class="menu-text">Pengeluaran</span>
-      <div class="menu-icon">
-        <img src="{{ asset('Images/dompet.svg') }}" alt="Icon Pengeluaran" />
+    <a href="{{ url('/pengeluaran') }}" class="menu-shortcut-item">
+      <div class="menu-shortcut-icon" style="background-color: var(--primary-pink);">
+        <img src="{{ asset('images/dompet.svg') }}" alt="Icon Pengeluaran" />
       </div>
-    </div>
+      <span class="menu-shortcut-text">Pengeluaran</span>
+    </a>
     
-    <div class="menu-item menu-pendataan" onclick="location.href='/pendataan'">
-      <span class="menu-text">Pendataan</span>
-      <div class="menu-icon">
+    <a href="{{ url('/pendataan') }}" class="menu-shortcut-item">
+      <div class="menu-shortcut-icon" style="background-color: var(--primary-yellow);">
         <img src="{{ asset('images/catatan.svg') }}" alt="Icon Pendataan" />
       </div>
-    </div>
+      <span class="menu-shortcut-text">Pendataan</span>
+    </a>
   </div>
+
+
+<div class="menu-section-title">Rekomendasi Alokasi Dana</div>
+
+<!-- Row: Dana Darurat -->
+<div class="rekomendasi-row">
+  <div class="rekomendasi-row-icon" style="background-color: var(--primary-pink);">
+    <img src="{{ asset('images/uang.svg') }}" alt="Icon Dana Darurat" />
+  </div>
+  <span class="rekomendasi-row-label">Dana Darurat</span>
+  <div class="rekomendasi-row-badge">
+      <span>Rp {{ number_format($target_dana_darurat, 0, ',', '.') }}</span>
+  </div>
+</div>
+
+<!-- Row: Prive -->
+<div class="rekomendasi-row">
+  <div class="rekomendasi-row-icon" style="background-color: var(--primary-pink);">
+    <img src="{{ asset('images/memberi.svg') }}" alt="Icon Prive" />
+  </div>
+  <span class="rekomendasi-row-label">Prive (Pengambilan Pribadi)</span>
+  <div class="rekomendasi-row-badge">
+    @if($prive_maks > 0)
+      <span>Rp {{ number_format($prive_maks, 0, ',', '.') }}</span>
+    @else
+      <span>Tidak Disarankan</span>
+    @endif
+  </div>
+</div>
 </div>
 
 <script>

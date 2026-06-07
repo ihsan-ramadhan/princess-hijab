@@ -38,6 +38,8 @@ Route::get('/logout', [PegawaiController::class, 'logout']);
 Route::middleware(['auth.admin'])->group(function () {
 
     Route::get('/dashboard-admin', [TransaksiController::class, 'dashboardAdmin']);
+    Route::get('/alokasi-dana', [TransaksiController::class, 'alokasiDana']);
+    Route::post('/alokasi-dana/update', [TransaksiController::class, 'updateAlokasiDana']);
 
     Route::get('/rekap-omset', function () {
         return view('rekap-omset');
