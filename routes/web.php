@@ -22,9 +22,21 @@ use App\Models\Pegawai;
 // (Tidak perlu login)
 // ==========================================
 Route::get('/', function () {
+    // Auto-redirect jika sudah login
+    if (session('login')) {
+        return session('role') === 'admin'
+            ? redirect('/dashboard-admin')
+            : redirect('/input-penjualan');
+    }
     return view('welcome');
 });
 Route::get('/login', function () {
+    // Auto-redirect jika sudah login
+    if (session('login')) {
+        return session('role') === 'admin'
+            ? redirect('/dashboard-admin')
+            : redirect('/input-penjualan');
+    }
     return view('login');
 });
 
@@ -143,9 +155,6 @@ Route::middleware(['auth.pegawai'])->group(function () {
     Route::get('/pilih-jongko', [SessionKerjaController::class, 'index']);
     Route::post('/set-jongko-kerja', [SessionKerjaController::class, 'simpanJongko']);
 
-    Route::get('/dashboard-pegawai', function () {
-        return view('dashboard-pegawai');
-    });
     Route::get('/catat-transaksi', function () {
         return view('catat-transaksi');
     });

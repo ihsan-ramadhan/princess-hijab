@@ -27,14 +27,16 @@ class Pegawai extends Model
      * Hitung upah harian pegawai berdasarkan total penjualan harian.
      * RUMUS: Gaji Pokok (Rp 50.000) + Bonus 10% dari Total Penjualan
      */
+
     public static function hitungUpah($totalPenjualan)
     {
         $pokok = 50000;
-        $bonus = 0;
+        // 10% bonus from total sales
+        $bonus = (int) round($totalPenjualan * 0.10);
         return [
             'pokok' => $pokok,
             'bonus' => $bonus,
-            'bersih' => $pokok
+            'bersih' => $pokok + $bonus,
         ];
     }
 
